@@ -8,8 +8,8 @@ import * as os from 'os';
 
 const EDGE_ADAPTER_PATH = {
     OSX: '',
-    WINx64:    path.resolve(__dirname, '../../node_modules/edge-diagnostics-launch/dist/x64/EdgeDiagnosticsAdapter.exe'),
-    WINx86: path.resolve(__dirname, '../../node_modules/edge-diagnostics-launch/dist/x86/EdgeDiagnosticsAdapter.exe'),
+    WINx64:    path.resolve(__dirname, '../../node_modules/edge-diagnostics-adapter/dist/x64/EdgeDiagnosticsAdapter.exe'),
+    WINx86: path.resolve(__dirname, '../../node_modules/edge-diagnostics-adapter/dist/x86/EdgeDiagnosticsAdapter.exe'),
     LINUX: ''
 };
 

@@ -4,74 +4,87 @@
 
 import {ChromeDebugAdapter, Utils, Logger} from 'vscode-chrome-debug-core';
 import * as edgeUtils from './utilities';
-import {spawn, ChildProcess} from 'child_process';
+import * as childProcess from 'child_process';
 import * as path from 'path';
 
 export class EdgeDebugAdapter extends ChromeDebugAdapter {
-    private _proxyProc: ChildProcess;
+    private _adapterProc: childProcess.ChildProcess;
 
-    public constructor() {
-        super();
-    }
-
-    public attach(args: any): Promise<void> {
-        if (args.port == null) {
-            return Utils.errP('The "port" field is required in the attach config.');
+    private _launchAdapter(url?:string, port?:number, adapterExePath?:string ):Promise<any> {
+        this.initializeLogging('launch-adapter', arguments);
+        if (!adapterExePath) {
+            adapterExePath = edgeUtils.getAdapterPath();
         }
 
-        this.initializeLogging('attach-edge', args);
-
-        // Check exists?
-        const adapterPath = args.runtimeExecutable || edgeUtils.getAdapterPath();
-        if (!adapterPath) {
+        // Check exists
+        if (!adapterExePath) {
             if (Utils.getPlatform() == Utils.Platform.Windows) {
-                return Utils.errP(`No Edge Diagnostics Adapter was found. Install an iOS proxy (https://github.com/Microsoft/edge-diagnostics-launch) and specify a valid 'adapterExecutable' path`);
+                return Utils.errP(`No Edge Diagnostics Adapter was found. Install the Edge Diagnostics Adapter (https://github.com/Microsoft/edge-diagnostics-launch) and specify a valid 'adapterExecutable' path`);
             } else {
                 return Utils.errP(`Edge debugging is only supported on Windows 10.`);
             }
         }
 
-        // Start with remote debugging enabled
-        const adapterPort = args.port || 9222;
-        const adapterArgs: string[] = [];
-
-        let launchUrlArg: string;
-        launchUrlArg = '--launch=';
-        if (args.file) {
-            launchUrlArg += 'file:///' + path.resolve(args.cwd, args.file);
-        } else if (args.url) {
-            launchUrlArg += args.url;
+        let adapterArgs:string[] = [];
+        if (!port) {
+            port = 9222;
         }
-        adapterArgs.push(launchUrlArg);
+        // We always tell the adpater what port to listen on so there's no shared info between the adapter and the extension
+        let portCmdArg = '--port=' + port;
+        adapterArgs.push(portCmdArg);
 
-        if (args.proxyArgs) {
-            // Add additional parameters
-            adapterArgs.push(...args.proxyArgs);
+        if(url){
+            let launchUrlArg = '--launch='+ url;
+            adapterArgs.push(launchUrlArg);
         }
 
-        Logger.log(`spawn('${adapterPath}', ${JSON.stringify(adapterArgs) })`);
-        this._proxyProc = spawn(adapterPath, adapterArgs, {
-            detached: true,
-            stdio: ['ignore']
-        });
-        (<any>this._proxyProc).unref();
-        this._proxyProc.on('error', (err) => {
-            Logger.log('device proxy error: ' + err);
-            this.terminateSession();
+        Logger.log(`spawn('${adapterExePath}', ${JSON.stringify(adapterArgs) })`);
+        this._adapterProc = childProcess.execFile(adapterExePath, adapterArgs, (err) => {
+                Logger.log(`Adapter error: ${err}`);
+                this.terminateSession();
+            }, (data) => {
+                Logger.log(`Adapter output: ${data}`);
         });
 
-        var attachArgs = {
-            port: adapterPort,
+        let attachArgs = {
+            port: port,
             cwd: ""
         }
 
-        return super.attach(attachArgs);
+        return Promise.resolve(attachArgs);
+    }
+
+    public constructor() {
+        super();
+    }
+
+    public launch(args: any): Promise<void> {
+        this.initializeLogging('launch-edge', arguments);
+
+        let launchUrl: string;
+        if (args.file) {
+            launchUrl = 'file:///' + path.resolve(args.cwd, args.file);
+        } else if (args.url) {
+            launchUrl = args.url;
+        }
+
+        return this._launchAdapter(launchUrl, args.port, args.runtimeExecutable).then((attachArgs:any) =>{
+            return super.attach(attachArgs);
+        });
+    }
+
+    public attach(args: any): Promise<void> {
+        this.initializeLogging('attach-edge', arguments);
+
+        return this._launchAdapter(null, args.port, args.runtimeExecutable).then((attachArgs:any) =>{
+            return super.attach(attachArgs);
+        });
     }
 
     public clearEverything(): void {
-        if (this._proxyProc) {
-            this._proxyProc.kill('SIGINT');
-            this._proxyProc = null;
+        if (this._adapterProc) {
+            this._adapterProc.kill('SIGINT');
+            this._adapterProc = null;
         }
 
         super.clearEverything();
