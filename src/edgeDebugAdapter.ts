@@ -10,6 +10,7 @@ import * as path from 'path';
 export class EdgeDebugAdapter extends ChromeDebugAdapter {
     private _adapterProc: childProcess.ChildProcess;
 
+
     private _launchAdapter(url?:string, port?:number, adapterExePath?:string ):Promise<any> {
         this.initializeLogging('launch-adapter', arguments);
         if (!adapterExePath) {
