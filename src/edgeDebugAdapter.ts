@@ -11,8 +11,10 @@ import * as fs from 'fs';
 export class EdgeDebugAdapter extends ChromeDebugAdapter {
     private _adapterProc: childProcess.ChildProcess;
 
-    private _launchAdapter(url?:string, port?:number, adapterExePath?:string ):Promise<any> {
+    //private _launchAdapter(url?:string, port?:number, adapterExePath?:string ):Promise<any> {
+    private _launchAdapter(args?:any):Promise<any> {
         this.initializeLogging('launch-adapter', arguments);
+        let adapterExePath = args.runtimeExecutable;
         if (!adapterExePath) {
             adapterExePath = edgeUtils.getAdapterPath();
         }
@@ -28,36 +30,30 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
         }
 
         let adapterArgs:string[] = [];
-        if (!port) {
-            port = 9222;
+        if (!args.port) {
+            args.port = 9222;
         }
         // We always tell the adpater what port to listen on so there's no shared info between the adapter and the extension
-        let portCmdArg = '--port=' + port;
+        let portCmdArg = '--port=' + args.portport;
         adapterArgs.push(portCmdArg);
 
-        if(url){
-            let launchUrlArg = '--launch='+ url;
+        if(args.url){
+            let launchUrlArg = '--launch='+ args.url;
             adapterArgs.push(launchUrlArg);
         }
 
         // The adapter might already be running if so don't spawn a new one
-        return Utils.getURL(`http://127.0.0.1:${port}/json/version`).then((jsonResponse:any) => {
+        return Utils.getURL(`http://127.0.0.1:${args.port}/json/version`).then((jsonResponse:any) => {
             try {
                 const responseArray = JSON.parse(jsonResponse);
                 let targetBrowser:string = responseArray.Browser;
                 targetBrowser = targetBrowser.toLocaleLowerCase();
                 if(targetBrowser.indexOf('edge') > -1){
-                    let attachArgs = {
-                        port: port,
-                        cwd: ""
-                    }
-
-                    return Promise.resolve(attachArgs);
+                    return Promise.resolve(args);
                 }
 
                 return Utils.errP(`Sever for ${targetBrowser} already listening on :9222`);
             } catch (ex) {
-
                 return Utils.errP(`Sever already listening on :9222 returned ${ex}`);
             }
 
@@ -70,12 +66,7 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
                     Logger.log(`Adapter output: ${data}`);
             });
 
-            let attachArgs = {
-                port: port,
-                cwd: ""
-            }
-
-            return Promise.resolve(attachArgs);
+            return Promise.resolve(args);
         });
     }
 
@@ -94,7 +85,7 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
             launchUrl = args.url;
         }
 
-        return this._launchAdapter(launchUrl, args.port, args.runtimeExecutable).then((attachArgs:any) =>{
+        return this._launchAdapter(args).then((attachArgs:any) =>{
             return super.attach(attachArgs);
         });
     }
@@ -103,7 +94,7 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
         this.initializeLogging('attach-edge', arguments);
         Logger.log(`Attaching to Edge`);
 
-        return this._launchAdapter(null, args.port, args.runtimeExecutable).then((attachArgs:any) =>{
+        return this._launchAdapter(args).then((attachArgs:any) =>{
             return super.attach(attachArgs);
         });
     }
