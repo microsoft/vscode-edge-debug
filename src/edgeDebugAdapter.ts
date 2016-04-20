@@ -34,7 +34,7 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
             args.port = 9222;
         }
         // We always tell the adpater what port to listen on so there's no shared info between the adapter and the extension
-        let portCmdArg = '--port=' + args.portport;
+        let portCmdArg = '--port=' + args.port;
         adapterArgs.push(portCmdArg);
 
         if(args.url){
