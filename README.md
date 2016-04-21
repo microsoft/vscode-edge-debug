@@ -64,7 +64,6 @@ An example `launch.json` config.
 There's a few issues with launching Edge, you're best bet is to have your page already open and attach to it. 
 
 1. You have to have one tab open in Edge. Opening Edge for the first time from VS Code will get a hung page.
-2. 
 
 ### Multiple Tabs with the same Url 
 The logic for picking which tab to attach to is based on the URL. If you have multiple tabs open at the same URL VS Code will attach to the first one.
