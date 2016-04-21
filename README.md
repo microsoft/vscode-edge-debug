@@ -76,7 +76,7 @@ Currently the console.* API is not implemented so you won't see log messages in 
 #### No Pause Overlay
 Currently there is no indication in Edge when you are paused at a breakpoint in VS Code. You'll still see your site but won't be able to interact with it and the tab will eventually be reported as "Not responding".
 
-### No Support for Web Workers
+#### No Support for Web Workers
 Currently there is no support for debugging of web workers in Edge.
 
 #### No Inlined Sourcemap Support
