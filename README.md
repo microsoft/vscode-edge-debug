@@ -1,6 +1,8 @@
 # VS Code - Debugger for Edge
 
-A VS Code extension to debug your JavaScript code in the Edge browser. 
+A VS Code extension to debug your JavaScript code in the Edge browser.
+
+![demo](https://cdn.rawgit.com/microsoft/vscode-edge-debug/master/.demo.gif)
 
 ## Starting
 The extension operates in two modes - it can launch an instance of Chrome navigated to your app, or it can attach to a running instance of Chrome. Just like when using the Node debugger, you configure these modes with a `.vscode/launch.json` file in the root directory of your project. You can create this file manually, or Code will create one for you if you try to run your project, and it doesn't exist yet.
@@ -57,31 +59,31 @@ An example `launch.json` config.
 ```
 
 
-## Known Issues 
+## Known Issues
 
-### Launching Edge 
+### Launching Edge
 
-There's a few issues with launching Edge, you're best bet is to have your page already open and attach to it. 
+There's a few issues with launching Edge, you're best bet is to have your page already open and attach to it.
 
 1. You have to have one tab open in Edge. Opening Edge for the first time from VS Code will get a hung page.
 
-### Multiple Tabs with the same Url 
+### Multiple Tabs with the same Url
 The logic for picking which tab to attach to is based on the URL. If you have multiple tabs open at the same URL VS Code will attach to the first one.
 
-### No Console API 
+### No Console API
 Currently the console.* API is not implemented so you won't see log messages in the console in VS Code. You can execute statements and inspect the results as normal though.
 
-### No Pause Overlay 
+### No Pause Overlay
 Currently there is no indication in Edge when you are paused at a breakpoint in VS Code. You'll still see your site but won't be able to interact with it and the tab will eventually be reported as "Not responding".
 
-### No Support for Web Workers 
+### No Support for Web Workers
 Currently there is no support for debugging of web workers in Edge.
 
 ### No Inlined Sourcemap Support
 Sourcemaps that are included in the compiled JS aren't currently supported.
 
 ### Broken Stepping
-Occasionally, typically if you've been at a breakpoint for a while and tried to interact with the page you'll see that stepping no longer seems to be working. This can happen when Edge recycles the tab and moves the one being debugged to a hidden tab and in it's place creates a new page at the same URL. 
+Occasionally, typically if you've been at a breakpoint for a while and tried to interact with the page you'll see that stepping no longer seems to be working. This can happen when Edge recycles the tab and moves the one being debugged to a hidden tab and in it's place creates a new page at the same URL.
 
 ## Troubleshooting
 General things to try if you're having issues:
@@ -92,4 +94,4 @@ General things to try if you're having issues:
 * Check the console for warnings that this extension prints in some cases when it can't attach
 * Ensure the code in Edge matches the code in Code. Edge may cache an old version.
 * If you set a breakpoint in code that runs immediately when the page loads, you won't hit that breakpoint until you refresh the page.
-* File a bug in this extension's [GitHub repo](https://github.com/Microsoft/vscode-edge-debug). Set the "diagnosticLogging" field in your launch config to true and attach the logs when filing a bug. 
+* File a bug in this extension's [GitHub repo](https://github.com/Microsoft/vscode-edge-debug). Set the "diagnosticLogging" field in your launch config to true and attach the logs when filing a bug.
