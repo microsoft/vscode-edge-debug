@@ -59,30 +59,30 @@ An example `launch.json` config.
 ```
 
 
-## Known Issues
+## Known limitations
 
-### Launching Edge
+#### Launching Edge
 
 There's a few issues with launching Edge, you're best bet is to have your page already open and attach to it.
 
 1. You have to have one tab open in Edge. Opening Edge for the first time from VS Code will get a hung page.
 
-### Multiple Tabs with the same Url
+#### Multiple Tabs with the same Url
 The logic for picking which tab to attach to is based on the URL. If you have multiple tabs open at the same URL VS Code will attach to the first one.
 
-### No Console API
+#### No Console API
 Currently the console.* API is not implemented so you won't see log messages in the console in VS Code. You can execute statements and inspect the results as normal though.
 
-### No Pause Overlay
+#### No Pause Overlay
 Currently there is no indication in Edge when you are paused at a breakpoint in VS Code. You'll still see your site but won't be able to interact with it and the tab will eventually be reported as "Not responding".
 
 ### No Support for Web Workers
 Currently there is no support for debugging of web workers in Edge.
 
-### No Inlined Sourcemap Support
+#### No Inlined Sourcemap Support
 Sourcemaps that are included in the compiled JS aren't currently supported.
 
-### Broken Stepping
+#### Broken Stepping
 Occasionally, typically if you've been at a breakpoint for a while and tried to interact with the page you'll see that stepping no longer seems to be working. This can happen when Edge recycles the tab and moves the one being debugged to a hidden tab and in it's place creates a new page at the same URL.
 
 ## Troubleshooting
