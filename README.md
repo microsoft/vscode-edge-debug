@@ -4,7 +4,12 @@ A VS Code extension to debug your JavaScript code in the Edge browser.
 
 ![demo](https://cdn.rawgit.com/microsoft/vscode-edge-debug/master/.demo.gif)
 
-## Starting
+## Getting started
+
+To get started, you simply open the `Command Palette` inside VS Code and type `ext install` to run the `Extensions: Install Extension` command.  When the extension list appears, type **'edge'** to filter the list and install the **`Debugger for Edge`** extension.  
+
+
+## Configuration
 The extension operates in two modes - it can launch an instance of Chrome navigated to your app, or it can attach to a running instance of Chrome. Just like when using the Node debugger, you configure these modes with a `.vscode/launch.json` file in the root directory of your project. You can create this file manually, or Code will create one for you if you try to run your project, and it doesn't exist yet.
 
 To use this extension, you must first open the folder containing the project you want to work on.
@@ -57,6 +62,19 @@ An example `launch.json` config.
     ]
 }
 ```
+
+## Supported features
+
+In this release, we support the following features:
+
+- Setting breakpoints, including within source files when source maps are enabled
+- TypeScript, via source maps
+- Debug stepping
+- Locals scope variables via the **VARIABLES** panel 
+- Debugging eval scripts, script tags, and scripts that are added dynamically
+- Watches via the **WATCH** panel.
+- The debug console
+- Most console APIs
 
 
 ## Known limitations
