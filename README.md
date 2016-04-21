@@ -10,12 +10,14 @@ To get started, you simply open the `Command Palette` inside VS Code and type `e
 
 
 ## Configuration
-The extension operates in two modes - it can launch an instance of Chrome navigated to your app, or it can attach to a running instance of Chrome. Just like when using the Node debugger, you configure these modes with a `.vscode/launch.json` file in the root directory of your project. You can create this file manually, or Code will create one for you if you try to run your project, and it doesn't exist yet.
+The extension operates in two modes - it can `launch` an instance of Edge navigated to your app, or it can `attach` to a running instance of Edge. 
+
+Just like when using the Node debugger, you configure these modes with a `.vscode/launch.json` file in the root directory of your project. You can create this file manually, or Code will create one for you if you try to run your project, and it doesn't exist yet.
 
 To use this extension, you must first open the folder containing the project you want to work on.
 
-### Launch
-Two example `launch.json` configs. You must specify either `file` or `url` to launch Edge against a local file or a url. If you use a url, set `webRoot` to the directory that files are served from. This can be either an absolute path or a path relative to the workspace (the folder open in Code). It's used to resolve urls (like "http://localhost/app.js") to a file on disk (like "/users/me/project/app.js"), so be careful that it's set correctly.
+### Launch mode
+Two example `launch.json` configs. You must specify either `file` or `url` to launch Edge against a local file or a url. If you use a url, set `webRoot` to the directory that files are served from. This can be either an absolute path or a path relative to the workspace (the folder open in Code). It's used to resolve urls (like `http://localhost/app.js`) to a file on disk (like `/users/me/project/app.js`), so be careful that it's set correctly.
 ```json
 {
     "version": "0.1.0",
@@ -37,10 +39,10 @@ Two example `launch.json` configs. You must specify either `file` or `url` to la
     ]
 }
 ````
-### Attach
-aunch Edge and navigate to your page.
+### Attach mode
+Attaches the debugger to an already running instance of Edge.
 
-An example `launch.json` config.
+Example `launch.json` config:
 ```json
 {
     "version": "0.1.0",
