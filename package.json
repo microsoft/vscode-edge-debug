@@ -156,6 +156,11 @@
                                 "type": "string",
                                 "description": "When the 'url' field is specified, this specifies the workspace relative or absolute path to the webserver root.",
                                 "default": "."
+                            },
+                            "url": {
+                                "type": "string",
+                                "description": "The url already open in Edge to attach to. Exact matches only.",
+                                "default": "http://mysite.com/index.html"
                             }
                         }
                     }
