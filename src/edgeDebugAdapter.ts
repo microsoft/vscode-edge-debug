@@ -23,7 +23,7 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
         // Check exists
         if (!fs.existsSync(adapterExePath)) {
             if (Utils.getPlatform() == Utils.Platform.Windows) {
-                return Utils.errP(`No Edge Diagnostics Adapter was found. Install the Edge Diagnostics Adapter (https://github.com/Microsoft/edge-diagnostics-launch) and specify a valid 'adapterExecutable' path`);
+                return Utils.errP(`No Edge Diagnostics Adapter was found. Install the Edge Diagnostics Adapter (https://github.com/Microsoft/edge-diagnostics-adapter) and specify a valid 'adapterExecutable' path`);
             } else {
                 return Utils.errP(`Edge debugging is only supported on Windows 10.`);
             }
