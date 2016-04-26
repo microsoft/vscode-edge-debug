@@ -17,7 +17,8 @@ To use this extension, you must first open the folder containing the project you
 
 ### Launch mode
 Two example `launch.json` configs. You must specify either `file` or `url` to launch Edge against a local file or a url. If you use a url, set `webRoot` to the directory that files are served from. This can be either an absolute path or a path relative to the workspace (the folder open in Code). It's used to resolve urls (like `http://localhost/app.js`) to a file on disk (like `/users/me/project/app.js`), so be careful that it's set correctly.
-```json
+
+```javascript
 {
     "version": "0.1.0",
     "configurations": [
@@ -41,7 +42,7 @@ Two example `launch.json` configs. You must specify either `file` or `url` to la
 ### Attach mode
 Attaches the debugger to an already running instance of Edge.
 
-```json
+```javascript
 {
     "version": "0.1.0",
     "configurations": [
@@ -49,6 +50,7 @@ Attaches the debugger to an already running instance of Edge.
             "name": "Attach with sourcemaps",
             "type": "edge",
             "request": "attach",
+            "url": "http://localhost/mypage.html", // optional: used to find the right tab running in Edge
             "port": 9222,
             "sourceMaps": true
         },
