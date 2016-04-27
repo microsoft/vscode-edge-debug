@@ -4,6 +4,8 @@ A VS Code extension to debug your JavaScript code in the Edge browser.
 
 ![demo](https://cdn.rawgit.com/microsoft/vscode-edge-debug/master/.demo.gif)
 
+This extension is *pre-release* and you will encounter bugs on the way so let us know on our [issues](https://github.com/Microsoft/vscode-edge-debug/issues) page.
+
 ## Getting started
 
 To get started, you simply open the `Command Palette` inside VS Code and type `ext install` to run the `Extensions: Install Extension` command.  When the extension list appears, type **'edge'** to filter the list and install the **`Debugger for Edge`** extension.  
