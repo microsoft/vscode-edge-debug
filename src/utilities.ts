@@ -2,7 +2,7 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
-import {Utils} from 'vscode-chrome-debug-core';
+import {utils} from 'vscode-chrome-debug-core';
 import * as path from 'path';
 import * as os from 'os';
 
@@ -14,7 +14,7 @@ const EDGE_ADAPTER_PATH = {
 };
 
 export function getAdapterPath(): string {
-    const platform = Utils.getPlatform();
+    const platform = utils.getPlatform();
     // There is no good way to get the system arch so detecting the program files dir
     let arch;
     if(process.env.hasOwnProperty('ProgramFiles(x86)')){
@@ -22,7 +22,7 @@ export function getAdapterPath(): string {
     } else {
         arch = 'x86';
     }
-    if (platform === Utils.Platform.Windows) {
+    if (platform === utils.Platform.Windows) {
         if(arch === 'x64'){
             return EDGE_ADAPTER_PATH.WINx64;
         } else if(arch === 'x86'){
