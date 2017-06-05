@@ -39,7 +39,8 @@
     "typescript": "^2.3.3"
   },
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha --recursive -u tdd ./out/test/"
+    "test": "node ./node_modules/mocha/bin/mocha --recursive -u tdd ./out/test/",
+    "build": "node ./node_modules/gulp/bin/gulp.js build"
   },
   "contributes": {
     "debuggers": [
