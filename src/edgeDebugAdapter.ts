@@ -52,9 +52,9 @@ export class EdgeDebugAdapter extends ChromeDebugAdapter {
                     return Promise.resolve(args);
                 }
 
-                return utils.errP(`Sever for ${targetBrowser} already listening on :9222`);
+                return utils.errP(`Server for ${targetBrowser} already listening on :9222`);
             } catch (ex) {
-                return utils.errP(`Sever already listening on :9222 returned ${ex}`);
+                return utils.errP(`Server already listening on :9222 returned ${ex}`);
             }
 
         }, error => {
